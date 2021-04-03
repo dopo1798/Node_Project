@@ -6,34 +6,14 @@ var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 require('dotenv').config({ path: './config/config.env' });
 const database = require('./database/db.js');
-// app.use(bodyParser.json());
-// const DB_USER = 'dipika_user';
-// const PASSWORD = encodeURIComponent('dopo1234');
-// const DB_URL = `mongodb://${DB_USER}:${PASSWORD}@localhost:27017/nwtonSchool`;
-// mongoose.connect(DB_URL).then(() => {
-//     console.log("Database connected successfully");
-// }).catch((err) => {
-//     console.log(err);
-// });
-// app.get('/start', function(req, res) {
-//     const responseObj = {
-//         fn: "dipika",
-//         ln: "sarkar"
-//     }
-//     res.send(responseObj);
-// });
-// app.post('/start', function(req, res) {
-//     // const responseObj = {
-//     //     fn: "dipika",
-//     //     ln: "sarkar"
-//     // }
-//     console.log(req.body);
-//     res.send("this is post method");
-// });
-//database connection
-database.connectToDatabase();
-
-app.listen(3000, 'localhost', function run() {
-    console.log('App is running 3000 port');
-    console.log('App is running 3000 port');
+const authRoute = require('./authentication/authRoute');
+app.use("/auth", authRoute);
+database.connectToDatabase().then(response => {
+    console.log("database connected ");
+    app.listen(3000, 'localhost', () => {
+        // console.log('App is running 3000 port');
+        console.log('App is running 3000 port');
+    });
+}).catch(error => {
+    console.log(error);
 });
